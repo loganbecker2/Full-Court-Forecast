@@ -25,7 +25,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pandas sqlalchemy mysql-connector-python python-dotenv
+          pip install pandas sqlalchemy mysql-connector-python python-dotenv lxml html5lib
 
       # Step 4: Create .env file from GitHub secrets
       - name: Create .env file
