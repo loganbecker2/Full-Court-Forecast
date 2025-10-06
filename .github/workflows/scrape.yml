@@ -40,10 +40,10 @@ jobs:
         run: python Scraping/scrape_cbb_stats.py
 
       # Step 6: Upload CSV outputs (optional)
-      - name: Upload season and gamelog CSVs
+      - name: Upload scraped CSVs
         uses: actions/upload-artifact@v4
         with:
           name: scraped-data
           path: |
-            CBB-Money/DataFrames/Overall-Data/season_stats.csv
-            CBB-Money/DataFrames/Team-Gamelogs/all_team_gamelogs.csv
+            season_stats.csv
+            all_team_gamelogs.csv
