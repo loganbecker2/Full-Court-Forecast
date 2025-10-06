@@ -212,7 +212,7 @@ def format_school_name(school):
     school = school.replace('.','')
     
     # Random school changes in their url
-    school = school.replace('bowling-green', 'bowling-green-state')
+    school = school.replace('bowling green', 'bowling-green-state')
     school = school.replace('east texas am', 'texas-am-commerce')
     school = school.replace('fdu','fairleigh-dickinson')
     school = school.replace('houston christian','houston-baptist')
