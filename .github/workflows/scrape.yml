@@ -37,7 +37,7 @@ jobs:
 
       # Step 5: Run your scraper
       - name: Run scraping script
-        run: python scrape_cbb_stats.py
+        run: python Scraping/scrape_cbb_stats.py
 
       # Step 6: Upload CSV outputs (optional)
       - name: Upload season and gamelog CSVs
