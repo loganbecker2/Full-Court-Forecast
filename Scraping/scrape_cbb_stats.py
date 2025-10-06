@@ -48,8 +48,8 @@ def scrape_seasons(base_url, seasons):
             df['Season'] = season
             all_data = pd.concat([all_data, df], ignore_index=True)
         
-        # Random delay between 3 and 6 seconds to avoid detection and keep within limits
-        time.sleep(random.randint(3, 6))
+        # Random delay between 5 and 10 seconds to avoid detection and keep within limits
+        time.sleep(random.randint(5, 10))
         
     return all_data
 
@@ -70,8 +70,8 @@ def scrape_team_gamelog(base_url, seasons):
                 
             df = clean_gamelogs(df)
                 
-            # Random delay between 3 and 6 seconds to avoid detection and keep within limits
-            time.sleep(random.randint(3, 6))
+            # Random delay between 5 and 10 seconds to avoid detection and keep within limits
+            time.sleep(random.randint(5, 10))
     
     return all_data
 #%% Cleaning and preparing gamelog dataframe function    
@@ -252,9 +252,9 @@ def format_school_name(school):
 #%% save into mysql database
 def toSQL(df, databaseName):
     # Load .env file
-    load_dotenv()
+    load_dotenv("C:/Users/Logmo/cbb-money/.env")
     
-    engine = create_engine(f'mysql+mysqlconnector://{os.getenv("DB_USER")}:{os.getenv("DB_PASSWORD")}@{os.getenv("DB_HOST")}/{databaseName}')
+    engine = create_engine(f'mysql+mysqlconnector://{os.getenv("DB_USER")}:{os.getenv("DB_PASSWORD")}@{os.getenv("DB_HOST")}/{os.getenv("DB_NAME")}')
     return df.to_sql(name=databaseName, con=engine, if_exists='append', index=False)
 
 #%% Scrape overall cbb data
@@ -263,10 +263,13 @@ cbb_data = scrape_seasons(base_url, seasons)
 # Save all seasons combined in one CSV
 ###cbb_data.to_csv('C:/Users/Logmo/cbb-money/DataFrames/Overall-Data/season_stats.csv', index=False)
 
-# Save into mysql
-print(f"Rows affected: {toSQL(cbb_data, 'season_stats')}")
+# Save locally instead of MySQL (for github actions)
+cbb_data.to_csv("season_stats.csv", index=False)
 
-print("Finished scraping and creating season stats dataframes.")
+# Save into mysql
+# print(f"Rows affected: {toSQL(cbb_data, 'season_stats')}")
+
+# print("Finished scraping and creating season stats dataframes.")
 
 #%% Scrape team game logs (WILL TAKE 3+ HOURS) UNCOMMENT WHEN NEEDING TO RUN
 all_teams_logs = scrape_team_gamelog(base_url, seasons)
