@@ -274,11 +274,16 @@ cbb_data.to_csv("season_stats.csv", index=False)
 #%% Scrape team game logs (WILL TAKE 3+ HOURS) UNCOMMENT WHEN NEEDING TO RUN
 all_teams_logs = scrape_team_gamelog(base_url, seasons)
 
+# Save all team gamelogs for all seasons combined into one CSV (relative path for GitHub Actions)
+output_path = "all_team_gamelogs.csv"
+all_teams_logs.to_csv(output_path, index=False)
+
+
 # Save all team gamelogs for all seasons combined into one CSV
 ###all_teams_logs.to_csv('C:/Users/Logmo/cbb-money/DataFrames/Team-Gamelogs/all_team_gamelogs.csv', index=False)
 
 # Save into mysql
-print(f"Rows affected: {toSQL(all_teams_logs, 'gamelogs')}")
-
-print("Finished scraping and creating dataframes for all team gamelogs.")
+#print(f"Rows affected: {toSQL(all_teams_logs, 'gamelogs')}")
+ 
+# print("Finished scraping and creating dataframes for all team gamelogs.")
     
