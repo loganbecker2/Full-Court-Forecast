@@ -228,7 +228,7 @@ def format_school_name(school):
     school = school.replace('siu edwardsville','southern-illinois-edwardsville')
     school = school.replace('st thomas','st-thomas-mn')
     school = school.replace('tcu','texas-christian')
-    school = school.replace('texas rio grande valley','texas-pan-american')
+    school = school.replace('texas-rio grande valley','texas-pan-american')
     school = school.replace('the citadel','citadel')
     school = school.replace('uab','alabama-birmingham')
     school = school.replace('uc davis','california-davis')
