@@ -245,7 +245,7 @@ def format_school_name(school):
     school = school.replace('utep','texas-el-paso')
     school = school.replace('utsa','texas-san-antonio')
     school = school.replace('vmi','virginia-military-institute')
-    school = school.replace('william-mary','william-mary')
+    school = school.replace('william  mary','william-mary')
     school = school.replace(' ', '-')
     
     return school
