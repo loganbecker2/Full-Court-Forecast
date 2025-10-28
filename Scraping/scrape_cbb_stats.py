@@ -252,39 +252,46 @@ def format_school_name(school):
 
 #%% save into mysql database
 def toSQL(df, databaseName):
-    # Load .env file
     load_dotenv("C:/Users/Logmo/cbb-money/.env")
-    
     engine = create_engine(f'mysql+mysqlconnector://{os.getenv("DB_USER")}:{os.getenv("DB_PASSWORD")}@{os.getenv("DB_HOST")}/{os.getenv("DB_NAME")}')
     return df.to_sql(name=databaseName, con=engine, if_exists='append', index=False)
 
-#%% Scrape overall cbb data
+
+#%% Scrape and Save Season Stats
+print("Scraping season stats...")
 cbb_data = scrape_seasons(base_url, seasons)
 
-# Save all seasons combined in one CSV
-###cbb_data.to_csv('C:/Users/Logmo/cbb-money/DataFrames/Overall-Data/season_stats.csv', index=False)
+# Save combined file
+combined_season_path = os.path.join("DataFrames/Overall-Data", "season_stats.csv")
+cbb_data.to_csv(combined_season_path, index=False)
+print(f"Saved combined season stats to {combined_season_path}")
 
-# Save locally instead of MySQL (for github actions)
-cbb_data.to_csv("season_stats.csv", index=False)
+# Save each season individually
+for year in cbb_data["Season"].unique():
+    year_folder = os.path.join("DataFrames/Overall-Data", f"{year}_season_stats")
+    os.makedirs(year_folder, exist_ok=True)
+    year_df = cbb_data[cbb_data["Season"] == year]
+    year_file = os.path.join(year_folder, f"{year}_season_stats.csv")
+    year_df.to_csv(year_file, index=False)
+    print(f"Saved {year} season stats to {year_file}")
 
-# Save into mysql
-# print(f"Rows affected: {toSQL(cbb_data, 'season_stats')}")
 
-# print("Finished scraping and creating season stats dataframes.")
-
-#%% Scrape team game logs (WILL TAKE 3+ HOURS) UNCOMMENT WHEN NEEDING TO RUN
+#%% Scrape and Save Team Gamelogs
+print("Scraping all team gamelogs (this may take several hours)...")
 all_teams_logs = scrape_team_gamelog(base_url, seasons)
 
-# Save all team gamelogs for all seasons combined into one CSV (relative path for GitHub Actions)
-output_path = "all_team_gamelogs.csv"
-all_teams_logs.to_csv(output_path, index=False)
+# Save combined all-season gamelog file
+combined_logs_path = os.path.join("DataFrames/Team-GameLogs", "all_team_gamelogs.csv")
+all_teams_logs.to_csv(combined_logs_path, index=False)
+print(f"Saved combined team gamelogs to {combined_logs_path}")
 
+# Save by season
+for year in all_teams_logs["Season"].unique():
+    year_folder = os.path.join("DataFrames/Team-GameLogs", str(year))
+    os.makedirs(year_folder, exist_ok=True)
+    year_df = all_teams_logs[all_teams_logs["Season"] == year]
+    year_file = os.path.join(year_folder, f"{year}_all_gamelogs.csv")
+    year_df.to_csv(year_file, index=False)
+    print(f"Saved {year} gamelogs to {year_file}")
 
-# Save all team gamelogs for all seasons combined into one CSV
-###all_teams_logs.to_csv('C:/Users/Logmo/cbb-money/DataFrames/Team-Gamelogs/all_team_gamelogs.csv', index=False)
-
-# Save into mysql
-#print(f"Rows affected: {toSQL(all_teams_logs, 'gamelogs')}")
- 
-# print("Finished scraping and creating dataframes for all team gamelogs.")
-    
+print("Finished scraping and saving all data successfully!")
