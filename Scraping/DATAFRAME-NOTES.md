@@ -23,3 +23,6 @@
 ## DraftKings Odds DataFrames (DONE)
 uh ill look another time, cbb a long time away so no odds out right now (could use old odds but ehhh KEKL)
 - (DONE) looks like all I need to do is delete the first column (index column)
+
+
+# BRUH goofy ahh file
